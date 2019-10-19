@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-
+import {Redirect} from 'react-router-dom'
 
 export default class Login extends Component {
 
     state = {
         userName: '',
         pass: '',
-        user: {}
+        user: {},
+        redirect: false
     }
 
 
@@ -40,8 +41,8 @@ export default class Login extends Component {
                 this.setState({
                     user: data
                 })
-                console.log(data)
-
+                
+                this.redirect();
             })
             .catch((e) => console.log(e))
 
@@ -49,6 +50,10 @@ export default class Login extends Component {
 
     }
 
+   
+    redirect = () =>{
+       this.setState({redirect : true})
+    }
 
     render() {
 
@@ -58,11 +63,19 @@ export default class Login extends Component {
             display: 'block'
         }
 
+        if(this.state.redirect){
+            return <Redirect to={{
+                pathname: "/dashboard",
+                state : {user: this.state.user}
+            }}/>
+        }
+
         return (
 
 
             <div style={divStyle}>
 
+                <div className="row" style={{height: "100px"}}></div>
                 <form onSubmit={this.handleSubmit}>
                     <span className="input-field row">
                         <input onChange={this.handleInputChange} value={this.state.userName} type="text" name="userName" autoComplete="off" />
@@ -79,7 +92,7 @@ export default class Login extends Component {
                             Login <i className="fa fa-2x fa-user" />
                         </button>
                         <div className="col m2"></div>
-                        <button className="btn-large col m5" type="submit">
+                        <button className="btn-large col m5">
                             New user <i className="fa fa-2x fa-users" />
                         </button>
                     </div>
