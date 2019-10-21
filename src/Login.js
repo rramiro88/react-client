@@ -65,7 +65,7 @@ export default class Login extends Component {
 
         if(this.state.redirect){
             return <Redirect to={{
-                pathname: "/dashboard",
+                pathname: "/escritorio",
                 state : {user: this.state.user}
             }}/>
         }
